@@ -100,6 +100,27 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
 	protected static $requestClass = 'Illuminate\Http\Request';
 
 	/**
+	 * The Execeptions service provider used by the application.
+	 *
+	 * @var string
+	 */
+	public static $exceptionServiceProvider = 'Illuminate\Exception\ExceptionServiceProvider';
+
+	/**
+	 * The Events service provider used by the application.
+	 *
+	 * @var string
+	 */
+	public static $eventServiceProvider = 'Illuminate\Events\EventServiceProvider';
+	
+	/**
+	 * The Routing service provider used by the application.
+	 *
+	 * @var string
+	 */
+	public static $routingServiceProvider = 'Illuminate\Routing\RoutingServiceProvider';
+
+	/**
 	 * Create a new Illuminate application instance.
 	 *
 	 * @param  \Illuminate\Http\Request
@@ -157,7 +178,7 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
 	 */
 	protected function registerExceptionProvider()
 	{
-		$this->register(new ExceptionServiceProvider($this));
+		$this->register(static::$exceptionServiceProvider);
 	}
 
 	/**
@@ -167,7 +188,7 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
 	 */
 	protected function registerRoutingProvider()
 	{
-		$this->register(new RoutingServiceProvider($this));
+		$this->register(static::$routingServiceProvider);
 	}
 
 	/**
@@ -177,7 +198,7 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
 	 */
 	protected function registerEventProvider()
 	{
-		$this->register(new EventServiceProvider($this));
+		$this->register(static::$eventServiceProvider);
 	}
 
 	/**
@@ -305,7 +326,7 @@ class Application extends Container implements HttpKernelInterface, TerminableIn
 	public function register($provider, $options = array(), $force = false)
 	{
 		if ($registered = $this->getRegistered($provider) && ! $force)
-                                     return $registered;
+									 return $registered;
 
 		// If the given "provider" is a string, we will resolve it, passing in the
 		// application instance automatically for the developer. This is simply
